@@ -14,23 +14,26 @@ var BlogPost = new Schema({
 });
 
 var myModel = mongoose.model('BlogPost', BlogPost);
-var instance = new myModel();
-instance.author = 'andy';
-instance.save(function (err) {
-  console.log("Saved");
-});
 
-myModel.find({}, function (err, docs) {
-  console.log(docs.length);
-});
+var net = require('net');
 
-var http = require('http');
-http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('Hello World\n');
+var server = net.createServer(function (socket) {
+  socket.write("Connected\r\n");
+  socket.on("data", function (data) {
+    var post = new myModel();
+    post.body = data
+    post.save(function(err)
+    {
+      console.log("Saved: " + data)
+      socket.write("Saved: " + data + "\0");  
+      myModel.find({}, function (err, docs) {
+        console.log(docs.length);
+      });
+    });
+  });
+})
 
-}).listen(8124, "127.0.0.1");
-console.log('Server running at http://127.0.0.1:8124/');
+server.listen(8124, "127.0.0.1");
 
 
 
