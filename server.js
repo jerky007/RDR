@@ -8,6 +8,7 @@ app.set('view options', {
 
 var db = require ('./db.js');
 var User = db.model('User');
+var Location = db.model('Location');
 
 app.post('/user/create', function(req, res){
   new User(req.body).save(function(err){
@@ -19,6 +20,29 @@ app.get('/users.json', function(req, res)
 {
   UserModel.find({}, function(err, users){
    res.send(users); 
+  });
+});
+
+app.post('/check_in', function(req, res){
+  Location.find({user_id: req.body['user_id']}, function(err, location)
+  {
+    if (location.length == 0)
+    {
+      
+      new Location(req.body).save(function(err){
+        if (err == null)
+          res.send('first time logging location for this user.  done.');
+      });
+    }
+    else
+    {
+      location[0].latitude = req.body['latitude'];
+      location[0].longitude = req.body['longitude'];
+      location[0].save
+      
+      res.send('updated user');
+    }
+      
   });
 });
 
