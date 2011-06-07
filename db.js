@@ -1,4 +1,6 @@
-var db = require('mongoose');
+var db = module.exports = require('mongoose');
+
+db.connect('mongodb://localhost/test');
 
 function setupModels()
 {
@@ -20,11 +22,9 @@ function setupModels()
   
   db.model('Location', Location);
   db.model('User', User);
-}
+}();
 
-db.connect('mongodb://localhost/test');
-setupModels();
 
-module.exports = db;
+
 
 
