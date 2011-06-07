@@ -12,14 +12,15 @@ var Location = db.model('Location');
 
 app.post('/user/create', function(req, res){
   new User(req.body).save(function(err){
-    res.send('user saved successfully');
+    if (err == null)
+      res.send('user saved successfully');
   });
 });
 
 app.get('/users.json', function(req, res)
 {
-  UserModel.find({}, function(err, users){
-   res.send(users); 
+  User.find({}, function(err, users){
+    res.send(users); 
   });
 });
 
@@ -28,7 +29,6 @@ app.post('/check_in', function(req, res){
   {
     if (location.length == 0)
     {
-      
       new Location(req.body).save(function(err){
         if (err == null)
           res.send('first time logging location for this user.  done.');

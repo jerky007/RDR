@@ -12,4 +12,13 @@ $(function()
       $("#output").append(data + '<br/>');
     });
   });
+  
+  $("#refresh_user_list").click(function(){
+    $("#user_list").html('');
+    $.getJSON('/users.json', function(users){
+      $.each(users, function(idx, user) {
+        $("#user_list").append(user._id + " -- " + user.first_name + " " + user.last_name + "</br>")
+      }); 
+    });
+  });
 });

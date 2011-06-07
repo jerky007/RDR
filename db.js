@@ -18,7 +18,7 @@ function setupModels()
     date_created : Date
   });
   
-  db.model('Location', Location)
+  db.model('Location', Location);
   db.model('User', User);
 }
 
