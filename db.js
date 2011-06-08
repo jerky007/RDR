@@ -20,6 +20,15 @@ db.connect('mongodb://localhost/test');
     date_created : Date
   });
   
+  User.virtual('test_property')
+    .get( function() {
+      return 'test property value';
+    });
+    
+  User.method('test_method', function() {
+    return 'yo i am a test method'
+  });
+  
   db.model('Location', Location);
   db.model('User', User);
 })();

@@ -21,6 +21,8 @@ app.get('/users.json', function(req, res)
 {
   User.find({}, function(err, users){
     res.send(users); 
+    console.log(users[0].test_property);
+    console.log(users[0].test_method());
   });
 });
 
