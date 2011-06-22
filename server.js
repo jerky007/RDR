@@ -1,3 +1,5 @@
+PORT = 3000;
+
 var fs = require('fs')
 var express = require('express')
 var app = express.createServer();
@@ -8,7 +10,8 @@ app.set('view options', {
 
 var db = require ('./db.js');
 var User = db.model('User');
-var Location = db.model('Location');
+var UserLocation = db.model('UserLocation');
+var EstablishmentLocation = db.model('EstablishmentLocation');
 
 app.post('/user/create', function(req, res){
   new User(req.body).save(function(err){
@@ -17,21 +20,28 @@ app.post('/user/create', function(req, res){
   });
 });
 
+app.post('establishmentlocation/create', function(req, res) {
+	new EstablishmentLocation(req.body).save(function(err) {
+		if (err == null)
+			res.send('Establishment saved successfully');
+	});
+});
+
 app.get('/users.json', function(req, res)
 {
   User.find({}, function(err, users){
     res.send(users); 
-    console.log(users[0].test_property);
+    console.log(users[0].FirstName);
     console.log(users[0].test_method());
   });
 });
 
 app.post('/check_in', function(req, res){
-  Location.find({user_id: req.body['user_id']}, function(err, location)
+  UserLocation.find({user_id: req.body['user_id']}, function(err, location)
   {
     if (location.length == 0)
     {
-      new Location(req.body).save(function(err){
+      new UserLocation(req.body).save(function(err){
         if (err == null)
           res.send('first time logging location for this user.  done.');
       });
@@ -48,6 +58,7 @@ app.post('/check_in', function(req, res){
   });
 });
 
+
 app.get('/test_page', function(req, res){
    res.render('test_page.jade')
  });
@@ -57,5 +68,5 @@ app.get('/test_client.js', function(req, res){
   res.send(fs.readFileSync('test_client.js'));
 });
 
-app.listen(3000);
+app.listen(PORT);
 

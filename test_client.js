@@ -8,8 +8,9 @@ $(function()
   });
   
   $("#check_in").click(function(){
-    $.post('/check_in', {user_id: '4dec0ccb65f8599966000006', latitude: '55.04034', longitude: '65.00034'}, function(data){
-      $("#output").append(data + '<br/>');
+    $.post('/check_in', {user_id: '4dec0ccb65f8599966000006', latitude: '55.04034', longitude: '65.00034'},
+      function(data){
+        $("#output").append(data + '<br/>');
     });
   });
   
@@ -20,5 +21,12 @@ $(function()
         $("#user_list").append(user._id + " -- " + user.first_name + " " + user.last_name + "</br>")
       }); 
     });
+  });
+
+  $("#create_establishment").click(function() {
+	$.post("establishmentlocation/create", { address: "9425 Rolater Rd", latitude: '56.03333', longitude: '66.66654'},
+	   function(data) {
+		$("output").append(data + '<br/>');
+	});
   });
 });
