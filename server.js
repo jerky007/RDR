@@ -20,7 +20,7 @@ app.post('/user/create', function(req, res){
   });
 });
 
-app.post('establishmentlocation/create', function(req, res) {
+app.post('/establishmentlocation/create', function(req, res) {
 	new EstablishmentLocation(req.body).save(function(err) {
 		if (err == null)
 			res.send('Establishment saved successfully');

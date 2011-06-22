@@ -26,7 +26,7 @@ $(function()
   $("#create_establishment").click(function() {
 	$.post("establishmentlocation/create", { address: "9425 Rolater Rd", latitude: '56.03333', longitude: '66.66654'},
 	   function(data) {
-		$("output").append(data + '<br/>');
+		$("#output").append(data + '<br/>');
 	});
   });
 });
